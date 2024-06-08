@@ -1,6 +1,8 @@
 package com.iprody08.telegramservice.telegram;
 
 import com.iprody08.telegramservice.config.BotConfig;
+import com.iprody08.inquiryservice.product.api.ProductControllerApi;
+import com.iprody08.telegramservice.telegram.dto.TelegramInquiryDto;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.UpdatesListener;
 import com.pengrad.telegrambot.model.Update;
@@ -12,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Component
@@ -48,6 +51,7 @@ public class InquiryTelegramBot extends TelegramBot {
             enterName(id, message);
         } else if (message.equals("/start")) {
             log.info("Start telegram bot");
+            ProductControllerApi
             ProductRestClient client = ProductRestClient
                     .builder()
                     .enableHttpsWithIgnoreSelfSignCertificate(true)

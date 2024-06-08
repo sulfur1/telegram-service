@@ -121,9 +121,9 @@
                             <inputSpec>${project.basedir}/src/main/resources/product_api.yml</inputSpec>
                             <output>${project.build.directory}/generated-sources/product-service</output>
                             <generatorName>java</generatorName>
-                            <apiPackage>com.iprody08.inquiryservice.product.api</apiPackage>
-                            <modelPackage>com.iprody08.inquiryservice.product.model</modelPackage>
-                            <invokerPackage>com.iprody08.inquiryservice.product.invoker</invokerPackage>
+                            <apiPackage>com.iprody08.telegramservice.product.api</apiPackage>
+                            <modelPackage>com.iprody08.telegramservice.product.model</modelPackage>
+                            <invokerPackage>com.iprody08.telegramservice.product.invoker</invokerPackage>
                             <configOptions>
                                 <dateLibrary>resttemplate</dateLibrary>
                             </configOptions>
@@ -138,9 +138,9 @@
                             <inputSpec>${project.basedir}/src/main/resources/customer_api.yml</inputSpec>
                             <generatorName>java</generatorName>
                             <output>${project.build.directory}/generated-sources/customer-service</output>
-                            <apiPackage>com.iprody08.inquiryservice.customer.api</apiPackage>
-                            <modelPackage>com.iprody08.inquiryservice.customer.model</modelPackage>
-                            <invokerPackage>com.iprody08.inquiryservice.customer.invoker</invokerPackage>
+                            <apiPackage>com.iprody08.telegramservice.customer.api</apiPackage>
+                            <modelPackage>com.iprody08.telegramservice.customer.model</modelPackage>
+                            <invokerPackage>com.iprody08.telegramservice.customer.invoker</invokerPackage>
                             <configOptions>
                                 <library>resttemplate</library>
                             </configOptions>
