@@ -1,0 +1,384 @@
+openapi: 3.0.1
+info:
+  title: REST API Customers Service
+  description: Customer Service application.
+  contact:
+    name: Kirill Kozlov
+    url: https://t.me/roadthelife
+    email: space_cell@proton.me
+  version: '1.0'
+servers:
+  - url: http://localhost
+    description: Generated server url
+paths:
+  "/api/v1/customers/{id}":
+    get:
+      tags:
+        - customer-controller
+      summary: Get customer by ID
+      description: Returns the customer by ID
+      operationId: getCustomerById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Customer found
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/CustomerDto"
+        '404':
+          description: Customer not found
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/CustomerDto"
+    put:
+      tags:
+        - customer-controller
+      summary: Update customer by ID
+      description: Returns the updated customer
+      operationId: updateCustomer
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/CustomerDto"
+        required: true
+      responses:
+        '200':
+          description: Customer updated
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/CustomerDto"
+        '404':
+          description: Customer not found
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/CustomerDto"
+    delete:
+      tags:
+        - customer-controller
+      summary: Delete customer by ID
+      description: Deletes the customer by ID
+      operationId: deleteCustomer
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: Customer deleted
+        '404':
+          description: Customer not found
+  "/api/v1/contact_details/{id}":
+    get:
+      tags:
+        - contact-details-controller
+      summary: Get contact details by ID
+      description: Returns the contact details by ID
+      operationId: getContactDetailsById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Contact details found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ContactDetailsDto"
+        '404':
+          description: Contact details not found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ContactDetailsDto"
+    put:
+      tags:
+        - contact-details-controller
+      summary: Update contact details by ID
+      description: Returns the updated contact details
+      operationId: updateContactDetails
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/ContactDetailsDto"
+        required: true
+      responses:
+        '200':
+          description: Contact details updated
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ContactDetailsDto"
+        '404':
+          description: Contact details not found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ContactDetailsDto"
+    delete:
+      tags:
+        - contact-details-controller
+      summary: Delete contact details by ID
+      description: Deletes the contact details by ID
+      operationId: deleteContactDetails
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: Contact details deleted
+        '404':
+          description: Contact details not found
+  "/api/v1/customers":
+    get:
+      tags:
+        - customer-controller
+      summary: Get all customers
+      description: Returns all customers
+      operationId: getAllCustomers
+      parameters:
+        - name: pageable
+          in: query
+          required: true
+          schema:
+            "$ref": "#/components/schemas/Pageable"
+      responses:
+        '200':
+          description: Customers found
+          content:
+            "*/*":
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/CustomerDto"
+    post:
+      tags:
+        - customer-controller
+      summary: Add a new customer
+      description: Added customer
+      operationId: addCustomer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/CustomerDto"
+        required: true
+      responses:
+        '201':
+          description: Customer created
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/CustomerDto"
+  "/api/v1/contact_details":
+    get:
+      tags:
+        - contact-details-controller
+      summary: Get contact details
+      description: Returns all contact details
+      operationId: getAllContactDetails
+      parameters:
+        - name: pageable
+          in: query
+          required: true
+          schema:
+            "$ref": "#/components/schemas/Pageable"
+      responses:
+        '200':
+          description: Contact details found
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/ContactDetailsDto"
+    post:
+      tags:
+        - contact-details-controller
+      summary: Add new contact details
+      description: Added contact details
+      operationId: addContactDetails
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/ContactDetailsDto"
+        required: true
+      responses:
+        '201':
+          description: Contact details created
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ContactDetailsDto"
+  "/api/v1/customers/telegram/{id}":
+    get:
+      tags:
+        - customer-controller
+      summary: Get customer by telegram id
+      description: Returns the customer by telegram id
+      operationId: getCustomerByTelegramId
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Customer found
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/CustomerDto"
+        '404':
+          description: Customer not found
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/CustomerDto"
+  "/api/v1/countries":
+    get:
+      tags:
+        - country-controller
+      summary: Get all countries
+      description: Returns all countries
+      operationId: getAllCountries
+      parameters:
+        - name: pageable
+          in: query
+          required: true
+          schema:
+            "$ref": "#/components/schemas/Pageable"
+      responses:
+        '200':
+          description: Countries found
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/CountryDto"
+components:
+  schemas:
+    CustomerDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        surname:
+          type: string
+        countryId:
+          type: integer
+          format: int64
+        countryName:
+          type: string
+        email:
+          pattern: "^(.+)@(\\S+)$"
+          type: string
+        telegramId:
+          pattern: "^@[a-zA-Z0-9]+$"
+          type: string
+        createdCustomerAt:
+          type: string
+          format: date-time
+        updatedCustomerAt:
+          type: string
+          format: date-time
+        createdContactDetailsAt:
+          type: string
+          format: date-time
+        updatedContactDetailsAt:
+          type: string
+          format: date-time
+    ContactDetailsDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        customerId:
+          type: integer
+          format: int64
+        email:
+          pattern: "^(.+)@(\\S+)$"
+          type: string
+        telegramId:
+          pattern: "^@[a-zA-Z0-9]+$"
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    Pageable:
+      type: object
+      properties:
+        page:
+          minimum: 0
+          type: integer
+          format: int32
+        size:
+          minimum: 1
+          type: integer
+          format: int32
+        sort:
+          type: array
+          items:
+            type: string
+    CountryDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        countryCode:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time

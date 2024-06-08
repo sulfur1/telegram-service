@@ -1,0 +1,444 @@
+openapi: 3.0.1
+info:
+  title: REST API Product Service
+  description: 'Product Service application.
+
+    '
+  contact:
+    name: Polyakov Alexey
+    url: https://t.me/Polyakov_AI
+    email: sulfur1917@gmail.com
+  version: '1.0'
+servers:
+  - url: http://localhost
+    description: Generated server url
+paths:
+  "/api/products":
+    put:
+      tags:
+        - product-controller
+      summary: Update price of product
+      description: Returns a dto of product with price updated
+      operationId: updatePriceOfProduct
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/ProductDto"
+        required: true
+      responses:
+        '200':
+          description: Update successfully
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ProductDto"
+    post:
+      tags:
+        - product-controller
+      summary: Create a new product
+      description: Returns a dto of product created
+      operationId: createProduct
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/ProductDto"
+        required: true
+      responses:
+        '201':
+          description: Create successfully
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ProductDto"
+  "/api/products/{productId}/id/apply_discount":
+    put:
+      tags:
+        - product-controller
+      summary: Apply discount to product
+      description: Apply and return discount to product by productId
+      operationId: applyDiscountToProduct
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          schema:
+            minimum: 1
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/DiscountDto"
+        required: true
+      responses:
+        '202':
+          description: Apply successfully
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/DiscountDto"
+  "/api/products/all/apply_discount":
+    put:
+      tags:
+        - product-controller
+      summary: Apply discount to all products
+      description: Apply and return discount to all products
+      operationId: applyBulkDiscountForAllProducts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/DiscountDto"
+        required: true
+      responses:
+        '202':
+          description: Apply successfully
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/DiscountDto"
+  "/api/products/{productId}/id/discounts/{discountId}/id/change_active":
+    patch:
+      tags:
+        - product-controller
+      summary: Change active of discount for product
+      description: Change active of discount by discountId for product by productId
+      operationId: changeActiveDiscountForProduct
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          schema:
+            minimum: 1
+            type: integer
+            format: int64
+        - name: discountId
+          in: path
+          required: true
+          schema:
+            minimum: 1
+            type: integer
+            format: int64
+        - name: active
+          in: query
+          required: true
+          schema:
+            type: boolean
+      responses:
+        '202':
+          description: Change active successfully
+  "/api/products/{productId}/change_active":
+    patch:
+      tags:
+        - product-controller
+      summary: Update active of product
+      description: Update active of product by productId
+      operationId: changeActiveProduct
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          schema:
+            minimum: 1
+            type: integer
+            format: int64
+        - name: active
+          in: query
+          required: true
+          schema:
+            type: boolean
+      responses:
+        '204':
+          description: Update successfully
+  "/api/products/all/discounts/{discountId}/id/change_active":
+    patch:
+      tags:
+        - product-controller
+      summary: Change active of discount for all product
+      description: Change active of discount by discountId for all product
+      operationId: changeActiveDiscountForAllProducts
+      parameters:
+        - name: discountId
+          in: path
+          required: true
+          schema:
+            minimum: 1
+            type: integer
+            format: int64
+        - name: active
+          in: query
+          required: true
+          schema:
+            type: boolean
+      responses:
+        '202':
+          description: Change active successfully
+  "/api/products/{productId}":
+    get:
+      tags:
+        - product-controller
+      summary: Get product by productId
+      description: Get product with price, duration and discounts
+      operationId: getProductById
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          schema:
+            minimum: 1
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successfully received
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/ProductDto"
+  "/api/products/info":
+    get:
+      tags:
+        - version-controller
+      summary: Get app information
+      description: Get app name, version
+      operationId: welcome
+      responses:
+        '200':
+          description: Successfully received
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/VersionDto"
+  "/api/products/all":
+    get:
+      tags:
+        - product-controller
+      summary: Get all products
+      description: Get all products with price, duration and discounts
+      operationId: getAllProducts
+      parameters:
+        - name: pageable
+          in: query
+          required: true
+          schema:
+            "$ref": "#/components/schemas/Pageable"
+      responses:
+        '200':
+          description: Successfully received
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/ProductDto"
+  "/api/products/all/sort-price":
+    get:
+      tags:
+        - product-controller
+      summary: Get all products with sort price
+      description: Get all products with price, duration and discounts
+      operationId: getAllProductsBySortPrice
+      parameters:
+        - name: pageable
+          in: query
+          required: true
+          schema:
+            "$ref": "#/components/schemas/Pageable"
+      responses:
+        '200':
+          description: Successfully received
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/ProductDto"
+  "/api/products/all/sort-discount":
+    get:
+      tags:
+        - product-controller
+      summary: Get all products with sort discount
+      description: Get all products with price, duration and discounts
+      operationId: getAllProductsBySortDiscount
+      parameters:
+        - name: pageable
+          in: query
+          required: true
+          schema:
+            "$ref": "#/components/schemas/Pageable"
+      responses:
+        '200':
+          description: Successfully received
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/ProductDto"
+  "/api/products/all/by-name":
+    get:
+      tags:
+        - product-controller
+      summary: Get product by name
+      description: Get product with price, duration and discounts
+      operationId: getAllProductsWithName
+      parameters:
+        - name: pageable
+          in: query
+          required: true
+          schema:
+            "$ref": "#/components/schemas/Pageable"
+        - name: name
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully received
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/ProductDto"
+  "/api/products/all/by-active":
+    get:
+      tags:
+        - product-controller
+      summary: Get all products by active
+      description: Get all products with price, duration and discounts
+      operationId: getAllProductsWithActive
+      parameters:
+        - name: pageable
+          in: query
+          required: true
+          schema:
+            "$ref": "#/components/schemas/Pageable"
+        - name: active
+          in: query
+          required: true
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: Successfully received
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/ProductDto"
+components:
+  schemas:
+    CurrencyDto:
+      required:
+        - currency
+      type: object
+      properties:
+        currency:
+          pattern: "^[A-Z]{3}$"
+          type: string
+    DiscountDto:
+      required:
+        - active
+        - dateTimeFrom
+        - dateTimeUntil
+        - value
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        value:
+          type: integer
+          format: int32
+        dateTimeFrom:
+          type: string
+          format: date-time
+        dateTimeUntil:
+          type: string
+          format: date-time
+        active:
+          type: boolean
+    DurationDto:
+      required:
+        - inDays
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        inDays:
+          minimum: 1
+          type: integer
+          format: int32
+    PriceDto:
+      required:
+        - currency
+        - value
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        value:
+          minimum: 0
+          exclusiveMinimum: true
+          type: number
+        currency:
+          "$ref": "#/components/schemas/CurrencyDto"
+    ProductDto:
+      required:
+        - active
+        - description
+        - durationDto
+        - priceDto
+        - summary
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        summary:
+          type: string
+        description:
+          type: string
+        priceDto:
+          "$ref": "#/components/schemas/PriceDto"
+        durationDto:
+          "$ref": "#/components/schemas/DurationDto"
+        active:
+          type: boolean
+        discountDtos:
+          type: array
+          items:
+            "$ref": "#/components/schemas/DiscountDto"
+    VersionDto:
+      type: object
+      properties:
+        appVersion:
+          type: string
+        appName:
+          type: string
+        currentTime:
+          type: string
+          format: date-time
+    Pageable:
+      type: object
+      properties:
+        page:
+          minimum: 0
+          type: integer
+          format: int32
+        size:
+          minimum: 1
+          type: integer
+          format: int32
+        sort:
+          type: array
+          items:
+            type: string
