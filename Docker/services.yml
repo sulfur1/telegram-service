@@ -7,7 +7,7 @@ networks:
 services:
 
   customer-service:
-    image: ghcr.io/iprody/iprody-devs-gr0000000008-customer-service:latest
+    image: customer-service:latest
     container_name: customer-service
     env_file:
       - ../secrets/customer-service.env
@@ -16,7 +16,7 @@ services:
       - microservices-network
 
   product-service:
-    image: ghcr.io/iprody/iprody-devs-gr0000000008-product-service:latest
+    image: product-service:latest
     container_name: product-service
     networks:
       - microservices-network
@@ -25,7 +25,7 @@ services:
     restart: always
 
   inquiry-service:
-    image: ghcr.io/iprody/iprody-devs-gr0000000008-inquiry-service:latest
+    image: inquiry-service:latest
     container_name: inquiry-service
     networks:
       - microservices-network
