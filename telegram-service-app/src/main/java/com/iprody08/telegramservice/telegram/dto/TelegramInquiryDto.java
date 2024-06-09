@@ -17,7 +17,9 @@ public class TelegramInquiryDto {
 
     private String telegramId;
 
-    private String country;
+    private Long countryId;
+
+    private String countryName;
 
     private String comment;
 
