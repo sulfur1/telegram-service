@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   title: REST API Customers Service
-  description: Customer Service application.
+  description: 'Customer Service application'
   contact:
     name: Kirill Kozlov
     url: https://t.me/roadthelife

@@ -1,8 +1,11 @@
 package com.iprody08.telegramservice.telegram;
 
 import com.iprody08.telegramservice.config.BotConfig;
-import com.iprody08.inquiryservice.product.api.ProductControllerApi;
+import com.iprody08.telegramservice.product.api.ProductControllerApi;
+import com.iprody08.telegramservice.product.invoker.ApiClient;
+import com.iprody08.telegramservice.product.model.ProductDto;
 import com.iprody08.telegramservice.telegram.dto.TelegramInquiryDto;
+import com.iprody08.telegramservice.util.PageableProduct;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.UpdatesListener;
 import com.pengrad.telegrambot.model.Update;
@@ -10,10 +13,12 @@ import com.pengrad.telegrambot.model.request.InlineKeyboardButton;
 import com.pengrad.telegrambot.model.request.InlineKeyboardMarkup;
 import com.pengrad.telegrambot.request.SendMessage;
 import jakarta.annotation.PostConstruct;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -44,6 +49,7 @@ public class InquiryTelegramBot extends TelegramBot {
         });
     }
 
+    @SneakyThrows
     private void messageHandler(Update update) {
         Long id = update.message().from().id();
         String message = update.message().text();
@@ -51,13 +57,11 @@ public class InquiryTelegramBot extends TelegramBot {
             enterName(id, message);
         } else if (message.equals("/start")) {
             log.info("Start telegram bot");
-            ProductControllerApi
-            ProductRestClient client = ProductRestClient
-                    .builder()
-                    .enableHttpsWithIgnoreSelfSignCertificate(true)
-                    .url("https://localhost/products/all")
-                    .build();
-            List<ProductDto> listProduct = client.getListProducts().getBody();
+            ApiClient apiClient = new ApiClient();
+            apiClient.setVerifyingSsl(false);
+            ProductControllerApi productApi = new ProductControllerApi(apiClient);
+            productApi.setCustomBaseUrl("https://localhost/");
+            List<ProductDto> listProduct = productApi.getAllProducts(PageableProduct.of(10));
             log.info(listProduct.toString());
             InlineKeyboardMarkup markup = new InlineKeyboardMarkup();
 

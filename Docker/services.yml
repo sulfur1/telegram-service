@@ -1,0 +1,51 @@
+version: '3.8'
+
+networks:
+  microservices-network:
+    driver: bridge
+
+services:
+
+  customer-service:
+    image: ghcr.io/iprody/iprody-devs-gr0000000008-customer-service:latest
+    container_name: customer-service
+    env_file:
+      - ../secrets/customer-service.env
+    restart: always
+    networks:
+      - microservices-network
+
+  product-service:
+    image: ghcr.io/iprody/iprody-devs-gr0000000008-product-service:latest
+    container_name: product-service
+    networks:
+      - microservices-network
+    env_file:
+      - ../secrets/product-service.env
+    restart: always
+
+  inquiry-service:
+    image: ghcr.io/iprody/iprody-devs-gr0000000008-inquiry-service:latest
+    container_name: inquiry-service
+    networks:
+      - microservices-network
+    env_file:
+      - ../secrets/inquiry-service.env
+    restart: always
+
+  gateway:
+    image: nginx:latest
+    container_name: gateway
+    restart: unless-stopped
+    volumes:
+      - ./gateway/nginx.conf:/etc/nginx/nginx.conf
+      - ../secrets/iprody_server.crt:/etc/nginx/ssl/iprody.crt
+      - ../secrets/iprody_server.key:/etc/nginx/ssl/iprody.key
+    ports:
+      - 443:443
+    depends_on:
+      - customer-service
+      - product-service
+      - inquiry-service
+    networks:
+      - microservices-network

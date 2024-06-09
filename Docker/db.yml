@@ -1,0 +1,81 @@
+version: '3.8'
+
+networks:
+  microservices-network:
+    driver: bridge
+
+services:
+
+  postgres-customer-db:
+    container_name: postgres_customer
+    image: postgres:latest
+    restart: always
+    env_file:
+      - ../secrets/customer-db.env
+    ports:
+      - 5432:5432
+    volumes:
+      - customers-db-data:/var/lib/postgresql/data
+    networks:
+      - microservices-network
+
+  postgres-product-db:
+    container_name: postgres_product
+    image: postgres:latest
+    restart: always
+    env_file:
+      - ../secrets/product-db.env
+    expose:
+      - 5433
+    ports:
+      - 5433:5433
+    command:
+      -p 5433
+    volumes:
+      - products-db-data:/var/lib/postgresql/data
+    networks:
+      - microservices-network
+
+  postgres-inquiry-db:
+    container_name: postgres_inquiry
+    image: postgres:latest
+    restart: always
+    env_file:
+      - ../secrets/inquiry-db.env
+    expose:
+      - 5434
+    ports:
+      - 5434:5434
+    command:
+      -p 5434
+    volumes:
+      - inquiries-db-data:/var/lib/postgresql/data
+    networks:
+      - microservices-network
+
+  pgAdmin:
+    container_name: pgadmin4
+    image: dpage/pgadmin4
+    restart: always
+    env_file:
+      - ../secrets/pgadmin4.env
+    volumes:
+      - pgAdmin-data:/var/lib/pgadmin
+    ports:
+      - 8888:80
+    depends_on:
+      - postgres-customer-db
+      - postgres-product-db
+      - postgres-inquiry-db
+    networks:
+      - microservices-network
+
+volumes:
+  customers-db-data:
+    external: true
+  products-db-data:
+    external: true
+  inquiries-db-data:
+    external: true
+  pgAdmin-data:
+    external: true
