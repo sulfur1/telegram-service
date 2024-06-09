@@ -316,7 +316,7 @@ components:
           pattern: "^(.+)@(\\S+)$"
           type: string
         telegramId:
-          pattern: "^@[a-zA-Z0-9]+$"
+          pattern: ".*\\B@(?=\\w{5,32}\\b)[a-zA-Z0-9]+(?:_[a-zA-Z0-9]+)*.*"
           type: string
         createdCustomerAt:
           type: string
@@ -343,7 +343,7 @@ components:
           pattern: "^(.+)@(\\S+)$"
           type: string
         telegramId:
-          pattern: "^@[a-zA-Z0-9]+$"
+          pattern: ".*\\B@(?=\\w{5,32}\\b)[a-zA-Z0-9]+(?:_[a-zA-Z0-9]+)*.*"
           type: string
         createdAt:
           type: string
