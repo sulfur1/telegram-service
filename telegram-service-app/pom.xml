@@ -148,6 +148,26 @@
                             </configOptions>
                         </configuration>
                     </execution>
+                    <execution>
+                        <id>generate-inquiry-service-client</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <generateApiTests>false</generateApiTests>
+                            <generateModelTests>false</generateModelTests>
+                            <generateApiTests>false</generateApiTests>
+                            <inputSpec>${project.basedir}/src/main/resources/inquiry_api.yml</inputSpec>
+                            <output>${project.build.directory}/generated-sources/inquiry-service</output>
+                            <generatorName>java</generatorName>
+                            <apiPackage>com.iprody08.telegramservice.inquiry.api</apiPackage>
+                            <modelPackage>com.iprody08.telegramservice.inquiry.model</modelPackage>
+                            <invokerPackage>com.iprody08.telegramservice.inquiry.invoker</invokerPackage>
+                            <configOptions>
+                                <dateLibrary>resttemplate</dateLibrary>
+                            </configOptions>
+                        </configuration>
+                    </execution>
                 </executions>
             </plugin>
             <plugin>
