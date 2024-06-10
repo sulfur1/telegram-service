@@ -1,0 +1,339 @@
+openapi: 3.0.1
+info:
+  title: REST API Inquiry Service
+  description: Inquiry Service application.
+  contact:
+    name: Bogdanovich Pavel
+    email: sega0172@gmail.com
+  version: "1.0"
+servers:
+  - url: http://localhost
+    description: Generated server url
+paths:
+  /api/v1/sources/id/{id}:
+    get:
+      tags:
+        - source-controller
+      summary: Find source by ID
+      description: Returns find Source Dto
+      operationId: findById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successfully received
+          content:
+            '*/*':
+              schema:
+                "$ref": '#/components/schemas/SourceDto'
+    put:
+      tags:
+        - source-controller
+      summary: Update source
+      operationId: update
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": '#/components/schemas/SourceDto'
+        required: true
+      responses:
+        '200':
+          description: Successfully updated
+          content:
+            '*/*':
+              schema:
+                "$ref": '#/components/schemas/SourceDto'
+    delete:
+      tags:
+        - source-controller
+      summary: Delete source by ID
+      operationId: deleteById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successfully deleted
+  /api/v1/inquiries/id/{id}:
+    get:
+      tags:
+        - inquiry-controller
+      summary: Find inquiry by ID
+      description: Returns find Inquiry Dto
+      operationId: findById_1
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successfully received
+          content:
+            '*/*':
+              schema:
+                "$ref": '#/components/schemas/InquiryDto'
+    put:
+      tags:
+        - inquiry-controller
+      summary: Update inquiry
+      operationId: update_1
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": '#/components/schemas/InquiryDto'
+        required: true
+      responses:
+        '200':
+          description: Successfully updated
+          content:
+            '*/*':
+              schema:
+                "$ref": '#/components/schemas/InquiryDto'
+    delete:
+      tags:
+        - inquiry-controller
+      summary: Delete inquiry by ID
+      operationId: deleteById_1
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successfully deleted
+  /api/v1/sources:
+    get:
+      tags:
+        - source-controller
+      summary: Get all list sources
+      description: Returns list all sources
+      operationId: findAll
+      parameters:
+        - name: pageNo
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 0
+        - name: pageSize
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 25
+        - name: sortBy
+          in: query
+          required: false
+          schema:
+            type: string
+            default: id
+        - name: sortDirection
+          in: query
+          required: false
+          schema:
+            type: string
+            default: asc
+        - name: name
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully received
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  "$ref": '#/components/schemas/SourceDto'
+    post:
+      tags:
+        - source-controller
+      summary: Create a new source
+      description: Returns a dto of source created
+      operationId: save
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SourceDto'
+        required: true
+      responses:
+        '201':
+          description: Create successfully
+          content:
+            '*/*':
+              schema:
+                "$ref": '#/components/schemas/SourceDto'
+  /api/v1/inquiries:
+    get:
+      tags:
+        - inquiry-controller
+      summary: Get all list inquiries
+      description: Returns list all inquiries
+      operationId: findAll_1
+      parameters:
+        - name: pageNo
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 0
+        - name: pageSize
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 25
+        - name: sortBy
+          in: query
+          required: false
+          schema:
+            type: string
+            default: id
+        - name: sortDirection
+          in: query
+          required: false
+          schema:
+            type: string
+            default: asc
+        - name: status
+          in: query
+          required: false
+          schema:
+            type: string
+            enum:
+              - NEW
+              - IN_PROGRESS
+              - PAYMENT
+              - PAID
+              - REJECTED
+        - name: comment
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: note
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully received
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  "$ref": '#/components/schemas/InquiryDto'
+    post:
+      tags:
+        - inquiry-controller
+      summary: Create a new inquiry
+      description: Returns a dto of inquiry created
+      operationId: save_1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": '#/components/schemas/InquiryDto'
+        required: true
+      responses:
+        '201':
+          description: Create successfully
+          content:
+            '*/*':
+              schema:
+                "$ref": '#/components/schemas/InquiryDto'
+  /api/v1/info:
+    get:
+      tags:
+        - version-controller
+      summary: Version page
+      description: Info about current version of inquiry service
+      operationId: welcome
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                "$ref": '#/components/schemas/VersionDto'
+components:
+  schemas:
+    SourceDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    InquiryDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        sourceId:
+          "$ref": '#/components/schemas/SourceDto'
+        comment:
+          type: string
+        status:
+          type: string
+        note:
+          type: string
+        productRefId:
+          type: integer
+          format: int64
+        customerRefId:
+          type: integer
+          format: int64
+        managerRefId:
+          type: integer
+          format: int64
+    VersionDto:
+      type: object
+      properties:
+        version:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
